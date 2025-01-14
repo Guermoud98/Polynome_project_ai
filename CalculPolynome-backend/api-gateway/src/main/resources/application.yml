@@ -1,0 +1,52 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
+      routes:
+        - id: factorization-service  # Identifiant unique pour la route
+          uri: lb://factorization-service  # Utilisation de Eureka pour découvrir le service Factorisation
+          predicates:
+            - Path=/factoriser/**  # Redirige les requêtes sur ce chemin vers le service
+        # Route vers le service Roots
+        - id: roots-service  # Identifiant unique pour la route Roots
+          uri: lb://roots-service  # Utilisation d'Eureka pour découvrir le service Roots
+          predicates:
+            - Path=/racines/**  # Redirige les requêtes /racines/** vers le service Roots
+        # Route vers le service Newton
+        - id: newton-service  # Identifiant unique pour la route Newton
+          uri: lb://newton-service  # Utilisation de Eureka pour découvrir le service Newton
+          predicates:
+            - Path=/newton/**  # Redirige les requêtes /newton/** vers le service Newton
+        # Route vers le service Quadratique
+        - id: quadratic-service  # Identifiant unique pour la route Quadratique
+          uri: lb://quadratic-service  # Utilisation d'Eureka pour découvrir le service Quadratique
+          predicates:
+            - Path=/quadratique/**  # Redirige les requêtes /quadratique/** vers le service Quadratique
+        - id: graph-service  # Identifiant unique pour la route Quadratique
+          uri: lb://graph-service  # Utilisation d'Eureka pour découvrir le service Quadratique
+          predicates:
+            - Path=/plot
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
