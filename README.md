@@ -32,9 +32,13 @@ Cette application résout des équations polynomiales en utilisant des méthodes
 ## **Technologies Utilisées**
 
 - **Frontend** : React, Flutter
-- **Backend** : Spring Boot avec Spring Cloud Gateway Python Flask
+- **Backend** : Spring Boot avec Spring Cloud Gateway, Python Flask
 - **Service Discovery** : Netflix Eureka
 - **Base de Données** : MySQL
+- **Machine Learning** : Modèles prédictifs avec scikit-learn, XGBoost et RandomForestClassifier
+- **Visualisation** : Représentation graphique avec Matplotlib
+- **Communication Interservices** : API REST via Spring Cloud Gateway
+- **Analyse Mathématique** : SymPy pour la manipulation et la résolution de polynômes
 
 ---
 
@@ -42,12 +46,15 @@ Cette application résout des équations polynomiales en utilisant des méthodes
 
 L'application est divisée en plusieurs composants :
 
-- **Client REST API** : Les frontends envoient des requêtes utilisateur au backend.
+- **Client REST API** : Les frontends (React et Flutter) envoient des requêtes utilisateur au backend.
 - **Passerelle** : Spring Cloud Gateway route les requêtes vers les microservices appropriés.
-- **Microservices** : Services indépendants pour traiter des tâches spécifiques.
+- **Microservices** : Services indépendants pour traiter des tâches spécifiques :
+  - **Service de Recommandation** : Propose la meilleure méthode pour résoudre un polynôme.
+  - **Service de Visualisation** : Génère des graphes basés sur les polynômes.
+  - **Service de Quiz** : Génère des questions interactives et des explications.
+  - **Service d'Analyse Mathématique** : Utilise SymPy pour résoudre et manipuler les polynômes.
 - **Service Discovery** : Netflix Eureka pour la découverte dynamique des microservices.
-
-[Consultez l'architecture ici](https://app.eraser.io/workspace/ckNFDmpsj8GlPOET39RP?origin=share)
+- **Machine Learning** : Intégré dans les microservices pour des prédictions avancées avec scikit-learn, XGBoost, et RandomForestClassifier.
 
 ---
 
@@ -58,6 +65,10 @@ L'application est divisée en plusieurs composants :
 - **Calcul par la méthode de Newton** : Approximation des solutions analytiques.
 - **Calcul quadratique** : Résolution des polynômes du second degré.
 - **Visualisation graphique** : Représentation graphique des polynômes et de leurs racines.
+- **Génération de quiz interactifs** : Création de questions basées sur les polynômes et affichage des solutions avec explications détaillées.
+- **Recommandation de méthodes** : Proposition automatique de la meilleure méthode pour résoudre un polynôme donné.
+- **Prédiction graphique avancée** : Prédiction de comportements polynomiaux basés sur des données analytiques.
+
 
 ---
 
@@ -121,9 +132,36 @@ L'application est divisée en plusieurs composants :
 
 ---
 
+### Exemple 2 : Factorisation d'un polynôme
+**Polynôme :** `x² - 5x + 6`  
+**Résultat Factorisé :** `(x - 2)(x - 3)`
+
+---
+
+### Exemple 3 : Recommandation de méthode
+**Polynôme :** `x³ - 2x + 1`  
+**Méthode Recommandée :** Méthode de Newton  
+**Explication :** Le polynôme est de degré supérieur à 2, donc la méthode de Newton est appropriée pour approximer les racines.
+
+---
+
+### Exemple 4 : Génération de quiz
+**Polynôme :** `2x² - x + 3`  
+**Question :** Trouvez les racines du polynôme `2x² - x + 3`.  
+**Solution :** `x = (1 ± √-23) / 4`  
+**Explication :** La méthode utilisée est la résolution quadratique.
+
+---
+
+### Exemple 5 : Visualisation graphique
+**Polynôme :** `x² - 4`  
+**Graphique :** Une parabole avec des racines en `x = -2` et `x = 2`.
+
+
 ## **Vidéo Démonstrative**
 
-- [Démonstration Backend & Frontend](https://github.com/user-attachments/assets/52c34e39-b6e8-420a-af23-55b1330a4ec2)
+- [Démonstration Web + intégration de AI ](https://github.com/user-attachments/assets/34b040fb-0d33-4617-a6f7-198272684aa4)
+- [Démonstration Web](https://github.com/user-attachments/assets/52c34e39-b6e8-420a-af23-55b1330a4ec2)
 - [Démonstration Mobile Flutter](https://github.com/user-attachments/assets/68736cf1-891f-4c27-a825-03b8cb6e1e44)
 
 ---
