@@ -1,5 +1,4 @@
-# Polynome_project_ai
-# **Résolution d'Équations Polynômiales avec une Architecture Microservices**
+# Polynome_project_ai **Résolution d'Équations Polynômiales avec une Architecture Microservices**
 
 Ce projet vise à fournir une solution modulaire et extensible pour résoudre des équations polynomiales à l'aide d'une architecture basée sur les microservices. Le système intègre des technologies modernes comme *Spring Boot*, *React*, et *Flutter* pour garantir performance et adaptabilité.
 
