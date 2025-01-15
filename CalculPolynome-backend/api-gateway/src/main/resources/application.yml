@@ -46,8 +46,15 @@ spring:
           uri: lb://recommendation-service  # Utilisation d'Eureka pour découvrir le service Recommendation
           predicates:
               - Path=/recommend/**  # Redirige les requêtes /recommend/** vers le service Recommendation
+        - id: quiz-service  # Identifiant unique pour le service Quiz
+          uri: lb://quiz-service  # Utilisation d'Eureka pour découvrir le service Quiz
+          predicates:
+             - Path=/quiz/**  # Toutes les requêtes commençant par /quiz/** iront au service Quiz
 
-
+        - id: graph-service-predict  # Identifiant unique pour la route Quadratique
+          uri: lb://graph-service-predict  # Utilisation d'Eureka pour découvrir le service Quadratique
+          predicates:
+             - Path=/predict-and-plot
 eureka:
   client:
     service-url:

@@ -1,7 +1,7 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const BASE_URL = 'http://127.0.0.1:8081';
-const proxyPaths = ['/racines', '/factoriser', '/newton', '/quadratique', '/plot','/recommend'];
+const proxyPaths = ['/racines', '/factoriser', '/newton', '/quadratique', '/plot','/recommend','/quiz','/predict-and-plot'];
 
 module.exports = function (app) {
   proxyPaths.forEach((path) => {
