@@ -2,6 +2,10 @@ from flask import Flask, request, jsonify
 import joblib
 import numpy as np
 import sympy as sp
+import requests
+import threading
+import time
+import logging
 
 # Charger le modèle et l'encodeur
 model = joblib.load("method_classifier.pkl")
@@ -9,6 +13,47 @@ label_encoder = joblib.load("label_encoder.pkl")
 
 # Initialiser l'application Flask
 app = Flask(__name__)
+# Configuration Eureka
+EUREKA_SERVER = "http://localhost:8761/eureka/apps/"
+SERVICE_NAME = "recommendation-service"
+SERVICE_PORT = 5006  # Port de votre service
+INSTANCE_ID = f"{SERVICE_NAME}:{SERVICE_PORT}"
+HOSTNAME = "127.0.0.1"  # Adresse IP ou hostname
+
+def register_with_eureka():
+    """
+    Fonction pour s'enregistrer auprès d'Eureka et envoyer des heartbeats périodiques.
+    """
+    while True:
+        try:
+            # URL pour enregistrer le service dans Eureka
+            url = EUREKA_SERVER + SERVICE_NAME
+            payload = {
+                "instance": {
+                    "instanceId": INSTANCE_ID,
+                    "hostName": HOSTNAME,
+                    "app": SERVICE_NAME.upper(),
+                    "ipAddr": HOSTNAME,
+                    "vipAddress": SERVICE_NAME,
+                    "status": "UP",
+                    "port": {"$": SERVICE_PORT, "@enabled": True},
+                    "dataCenterInfo": {
+                        "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+                        "name": "MyOwn"
+                    }
+                }
+            }
+            headers = {"Content-Type": "application/json"}
+            response = requests.post(url, json=payload, headers=headers)
+            if response.status_code == 204:
+                logging.info("Service registered successfully with Eureka!")
+            else:
+                logging.error(f"Failed to register with Eureka: {response.status_code}, {response.text}")
+        except Exception as e:
+            logging.error(f"Error registering with Eureka: {e}")
+
+        # Envoyer un heartbeat toutes les 30 secondes
+        time.sleep(30)
 
 def parse_polynomial(polynomial):
     """
@@ -31,7 +76,7 @@ def parse_polynomial(polynomial):
     coefficients.append(max_coefficient)
     return coefficients
 
-@app.route("/recommend-method", methods=["POST"])
+@app.route("/recommend", methods=["POST"])
 def recommend_method_api():
     """
     Endpoint pour recommander une méthode basée sur le modèle pré-entraîné.
@@ -70,6 +115,13 @@ def recommend_method_api():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5006)
+    # Initialisation des logs
+    logging.basicConfig(level=logging.INFO)
+
+    # Lancer le thread pour s'enregistrer auprès d'Eureka
+    threading.Thread(target=register_with_eureka, daemon=True).start()
+
+    # Démarrer l'application Flask
+    logging.info(f"Démarrage du service {SERVICE_NAME} sur le port {SERVICE_PORT}.")
+    app.run(host="0.0.0.0", port=SERVICE_PORT)
